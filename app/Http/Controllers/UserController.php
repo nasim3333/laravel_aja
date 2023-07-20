@@ -9,11 +9,10 @@ class UserController extends Controller
 {
 
     public function getUser(User $user)
-    {
+    { 
         $dataUser = $user->get();
-        // $dataUser = $user->where('id', auth()->user()->id)->get();
-        //return view('admin.user.viewUser', compact('dataUser')); //web
-        return response()->json($dataUser); //api
+        $dataUser = $user->where('id', auth()->user()->id)->get();
+        return view('admin.user.viewUser', compact('dataUser')); //web
     }
     public function tambah()
     {
@@ -31,13 +30,13 @@ class UserController extends Controller
         //dd($data);
         $data['password'] = bcrypt($userRequest->password);
         $user->create($data);
-        // return redirect(route('user.getUser'))->with('success', 'Data user berhasil ditambahkan');
-        return response()->json('data berhasil disimpan');
+        return redirect(route('user.getUser'))->with('success', 'Data user berhasil ditambahkan');
+    
     }
     public function deleteUser(User $user)
     {
         $user->delete();
-        // return back()->with(['success' => 'Data berhasil dihapus']);
+        return back()->with(['success' => 'Data berhasil dihapus']);
         return response()->json('data berhasil dihapus');
     }
     public function updateUser(User $user, Request $userRequest)
@@ -48,7 +47,7 @@ class UserController extends Controller
             $data['password'] = bcrypt($userRequest->password);
         }
         $user->update($data);
-        //return redirect(route('user.getUser'))->with('success', 'Data user berhasil diubah');
-        return response()->json('data berhasil diubah');
+        return redirect(route('user.getUser'))->with('success', 'Data user berhasil diubah');
+        
     }
 }
